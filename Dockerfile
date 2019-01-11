@@ -1,4 +1,4 @@
-FROM clojure:lein-2.8.1
+FROM clojure:openjdk-11-lein
 
 ENV LANG=C.UTF-8 \
     PATH=/opt/conda/bin:${PATH}
@@ -13,6 +13,10 @@ RUN   apt-get update \
    && /bin/bash /root/miniconda.sh -b -p /opt/conda \
    && rm -f /root/miniconda.sh \
    && pip install awscli ansible boto3 \
+   && wget https://deb.nodesource.com/setup_11.x -O /root/node.sh \
+   && /bin/bash /root/node.sh \
+   && rm -f /root/node.sh \
+   && apt-get install -y nodejs \
    && apt-get autoremove -y \
    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
    && adduser --home /home/testrunner --shell /bin/bash --gecos "" --disabled-password testrunner \
